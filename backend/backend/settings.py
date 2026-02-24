@@ -18,10 +18,7 @@ os.environ.pop("DATABASE_URL", None)
 load_dotenv(dotenv_path=BASE_DIR / '.env', override=True)
 
 db_url = os.getenv('DATABASE_URL')
-if db_url:
-    print(f"✅ SUCCESSFULLY CONNECTED TO: {db_url[:20]}...")
-else:
-    print("❌ STILL USING SQLITE - DATABASE_URL IS EMPTY")
+
 
 print(f"DEBUG: Django is looking for .env here: {BASE_DIR / '.env'}")
 print(f"DEBUG: Does that file exist? {(BASE_DIR / '.env').exists()}")
