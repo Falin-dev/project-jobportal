@@ -9,11 +9,22 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
+import dj_database_url
 from pathlib import Path
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
+os.environ.pop("DATABASE_URL", None) 
+load_dotenv(dotenv_path=BASE_DIR / '.env', override=True)
+
+db_url = os.getenv('DATABASE_URL')
+if db_url:
+    print(f"✅ SUCCESSFULLY CONNECTED TO: {db_url[:20]}...")
+else:
+    print("❌ STILL USING SQLITE - DATABASE_URL IS EMPTY")
+
+print(f"DEBUG: Django is looking for .env here: {BASE_DIR / '.env'}")
+print(f"DEBUG: Does that file exist? {(BASE_DIR / '.env').exists()}")
 
 
 # Quick-start development settings - unsuitable for production
@@ -75,16 +86,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'NAME':"jobportal_db",
-        'USER':'postgres',
-        'PASSWORD':'falin',
-        'HOST':'localhost',
-        'PORT': '5432'
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
+if not DATABASES['default'] or 'ENGINE' not in DATABASES['default']:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 
 
 # Password validation
