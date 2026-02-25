@@ -6,7 +6,7 @@ from .models import Job
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username','email', 'password','phone']
+        fields = ['username','email', 'password']
 
 class RegisterJob(serializers.ModelSerializer):
     class Meta:

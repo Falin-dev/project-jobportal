@@ -20,6 +20,6 @@ from .views import hello_api, register_user,register_job
 urlpatterns = [
     path('admin/',admin.site.urls),
     path('hello/',hello_api),
-    path('register/',register_user),
+    path('register-user/',register_user),
     path('addjob/',register_job)
 ]

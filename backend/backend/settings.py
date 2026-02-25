@@ -20,9 +20,6 @@ load_dotenv(dotenv_path=BASE_DIR / '.env', override=True)
 db_url = os.getenv('DATABASE_URL')
 
 
-print(f"DEBUG: Django is looking for .env here: {BASE_DIR / '.env'}")
-print(f"DEBUG: Does that file exist? {(BASE_DIR / '.env').exists()}")
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -47,17 +44,21 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'backend',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS=True
 
 ROOT_URLCONF = 'backend.urls'
 
