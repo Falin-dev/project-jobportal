@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import RegisterJob, RegisterSerializer
-from django.contrib.auth import User
+from django.contrib.auth.models import User
 @api_view(['GET'])
 def hello_api(request):
     return Response({'messages':"Hello good morning!","IDEA":'Ignite','call':'attend'})
@@ -25,12 +25,14 @@ def register_job(request):
 
 
 @api_view(['POST'])
+
 def basic_login(request):
     username = request.data.get('username')
     password = request.data.get('password')
 
     try:
-        user = User.objects.get(username=username,password=password)
+        user = User.objects.get(username=username)
+        pas = User.objects.get(password=password)
         return Response({"message":"Login Success"},status=status.HTTP_200_OK)
-    except:
-        return Response({"message":"Invalid Credentials"},status=status.HTTP_400_BAD_REQUEST)
+    except Exception:
+        return Response({"message":"invalid cred"},status=status.HTTP_400_BAD_REQUEST)
